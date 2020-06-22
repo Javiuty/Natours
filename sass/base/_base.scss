@@ -1,0 +1,29 @@
+/* Reseat */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%; /*Para ponerlo en porcentajes dividimos los pixeles que queremos (en este caso 10px) entre 16 que son los que vienes por defecto = 0.625*100 = 62.5%*/
+
+  //Mixin con el @media query
+  @include respond(tab-land) {
+    //width < 1200?
+    font-size: 56.25%; //1rem = 9px, 9/16 = 56.25%
+  }
+  @include respond(tab-port) {
+    //width < 900?
+    font-size: 50%; //1rem = 8px, 8/16 = 50%
+  }
+  @include respond(big-desktop) {
+    font-size: 75%; //1rem = 12, 12/16 = 75%
+  }
+}
+
+body {
+  box-sizing: border-box; /*This reseat the box-model */
+}
