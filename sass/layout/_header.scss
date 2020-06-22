@@ -1,25 +1,29 @@
 .header {
   height: 95vh;
   background-image: linear-gradient(
-    to right bottom,
-     rgba($color-primary-light, 0.8),
-     rgba($color-primary-dark, 0.8)),
-  url("../img/hero.jpg");
+      to right bottom,
+      rgba($color-primary-light, 0.8),
+      rgba($color-primary-dark, 0.8)
+    ),
+    url("../img/hero.jpg");
   background-size: cover; /*Da igual el size, siempre intenta cuadrar la imagen*/
   background-position: top; /*Siempre ocupará la parte de arriba del contenedor*/
   position: relative;
-  
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
   clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
 
+  @include respond(phone) {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  }
+  &__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+  }
 
   &__logo {
     height: 3.5rem;
-
-    &-box {
-      position: absolute;
-      top: 4rem;
-      left: 4rem;
-    }
   }
 
   &__text-box {
@@ -29,5 +33,4 @@
     transform: translate(-50%, -50%); /*Para centrar el elemento en la mitad */
     text-align: center;
   }
-
 }

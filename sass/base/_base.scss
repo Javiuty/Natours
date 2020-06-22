@@ -26,4 +26,10 @@ html {
 
 body {
   box-sizing: border-box; /*This reseat the box-model */
+  padding: 3rem;
+
+  @include respond(tab-port) {
+    //width < 900?
+    padding: 0;
+  }
 }
