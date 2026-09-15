@@ -1,0 +1,44 @@
+---
+interface Props {
+  variant?: "white" | "green";
+  /** Si se pasa, se renderiza como <a>; si no, como <button> */
+  href?: string;
+  /** Entra desde abajo al cargar la página (solo para el CTA del hero) */
+  animated?: boolean;
+  type?: "button" | "submit";
+  class?: string;
+}
+
+const {
+  variant = "green",
+  href,
+  animated = false,
+  type,
+  class: className,
+} = Astro.props;
+
+const palettes = {
+  white: "bg-white text-grey-dark after:bg-white",
+  green: "bg-primary text-white after:bg-primary",
+};
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : (type ?? "button")}
+  class:list={[
+    "relative inline-block cursor-pointer rounded-pill px-40 py-15 text-16 uppercase no-underline transition-all duration-200",
+    // Aro del mismo color que crece por detrás del botón hasta desvanecerse.
+    "after:absolute after:top-0 after:left-0 after:-z-10 after:h-full after:w-full after:rounded-pill after:transition-all after:duration-400 after:content-['']",
+    "hover:-translate-y-[3px] hover:shadow-btn hover:after:scale-x-140 hover:after:scale-y-160 hover:after:opacity-0",
+    "focus:-translate-y-[1px] focus:shadow-btn-active focus:outline-none",
+    "active:-translate-y-[1px] active:shadow-btn-active active:outline-none",
+    palettes[variant],
+    animated && "animate-in-bottom",
+    className,
+  ]}
+>
+  <slot />
+</Tag>

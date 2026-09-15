@@ -1,0 +1,72 @@
+---
+import Button from "./Button.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const fields = [
+  { id: "name", type: "text", label: "Full name", placeholder: "Full Name" },
+  { id: "email", type: "email", label: "Email address", placeholder: "Email address" },
+] as const;
+
+const groupSizes = [
+  { id: "small", label: "Small tour group" },
+  { id: "large", label: "Large tour group" },
+];
+
+// `leading-[normal]` recupera el line-height del navegador: el reset de
+// Tailwind pasa `font: inherit` a los controles de formulario, y con ello el
+// `line-height: 1.7` del body, que hacía los campos 8px más altos que en el
+// diseño original.
+const input =
+  "peer block w-9/10 rounded-field border-b-3 border-b-transparent bg-white/50 px-20 py-15 text-15 leading-[normal] text-inherit transition-all duration-300 placeholder:text-grey-dark-2 focus:border-b-primary focus:shadow-input focus:outline-none focus:invalid:border-b-secondary-dark tab-port:w-full";
+
+// La etiqueta flota: mientras el campo muestra el placeholder está oculta y
+// desplazada 4rem hacia arriba; al escribir baja a su sitio.
+const label =
+  "mt-7 ml-20 block text-12 font-bold transition-all duration-300 peer-placeholder-shown:invisible peer-placeholder-shown:-translate-y-40 peer-placeholder-shown:opacity-0";
+---
+
+<form action="#" class="w-1/2 p-60 tab-land:w-[65%] tab-port:w-full">
+  <SectionHeading centered={false} class="mb-40 tab-port:mb-30">
+    Start booking now
+  </SectionHeading>
+
+  {
+    fields.map((field) => (
+      <div class="mb-20">
+        <input
+          type={field.type}
+          id={field.id}
+          name={field.id}
+          placeholder={field.placeholder}
+          required
+          class={input}
+        />
+        <label for={field.id} class={label}>
+          {field.label}
+        </label>
+      </div>
+    ))
+  }
+
+  <div class="mb-40 tab-port:mb-30">
+    {
+      groupSizes.map((size) => (
+        <div class="inline-block w-[49%] tab-port:mb-20 tab-port:w-full">
+          <input type="radio" id={size.id} name="size" class="peer hidden" />
+          <label
+            for={size.id}
+            class="relative cursor-pointer pl-45 text-16"
+          >
+            {/* Aro exterior fijo; el punto interior aparece al marcar. */}
+            <span class="absolute left-0 -top-4 inline-block h-30 w-30 rounded-full border-5 border-primary after:absolute after:top-1/2 after:left-1/2 after:block after:h-12 after:w-12 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-primary after:opacity-0 after:transition-opacity after:duration-200 after:content-[''] peer-checked-within:after:opacity-100" />
+            {size.label}
+          </label>
+        </div>
+      ))
+    }
+  </div>
+
+  <div>
+    <Button type="submit">Next step &rarr;</Button>
+  </div>
+</form>

@@ -1,0 +1,80 @@
+---
+import { getImage } from "astro:assets";
+import Row from "./Row.astro";
+import { footerLinks } from "../data/site";
+import logoStacked from "../assets/logo-green-2x.png";
+import logoInline from "../assets/logo-green-small-2x.png";
+
+// Dos versiones distintas del logo, no dos resoluciones de la misma: apilado
+// (150x119) en escritorio y horizontal (150x30) en móvil. En el HTML original
+// el <source> de móvil apuntaba al apilado, así que el cambio nunca ocurría.
+const stacked = await Promise.all([
+  getImage({ src: logoStacked, width: 150, height: 119, format: "png" }),
+  getImage({ src: logoStacked, width: 300, height: 238, format: "png" }),
+]);
+
+const inline = await Promise.all([
+  getImage({ src: logoInline, width: 150, height: 30, format: "png" }),
+  getImage({ src: logoInline, width: 300, height: 60, format: "png" }),
+]);
+
+const srcset = (images: { src: string }[]) =>
+  `${images[0].src} 1x, ${images[1].src} 2x`;
+
+const link =
+  "inline-block bg-grey-dark-3 text-grey-light-1 uppercase no-underline transition-all duration-200 hover:text-primary hover:shadow-footer-link hover:rotate-5 hover:scale-130 active:text-primary active:shadow-footer-link active:rotate-5 active:scale-130";
+---
+
+<footer class="bg-grey-dark-3 py-100 text-14 text-grey-light-1 tab-port:py-80">
+  <div class="mb-80 text-center tab-port:mb-60">
+    <picture>
+      <source
+        media="(max-width: 37.5em)"
+        srcset={srcset(inline)}
+        width="150"
+        height="30"
+      />
+      <img
+        src={stacked[0].src}
+        srcset={srcset(stacked)}
+        width="150"
+        height="119"
+        alt="Natours"
+        class="inline-block h-auto w-150"
+      />
+    </picture>
+  </div>
+
+  <Row cols={2}>
+    <div class="text-center">
+      <nav
+        class="inline-block border-t border-grey-dark pt-20 tab-port:w-full tab-port:text-center"
+      >
+        <ul class="list-none">
+          {
+            footerLinks.map((item) => (
+              <li class="inline-block not-last:mr-15">
+                <a href={item.href} class={link}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <p
+      class="ml-auto w-4/5 border-t border-grey-dark pt-20 text-left tab-port:ml-0 tab-port:w-full"
+    >
+      Built by <a href="http://www.github.com/Javiuty" class={link}
+        >Javier Escuadra</a
+      > for his online course <a href="#" class={link}
+        >Advanced CSS and Sass</a
+      >. Copyright &copy; by Jonas Schmedtmann. You are 100% allowed to use this
+      webpage for both personal and commercial use, but NOT to claim it as your
+      own design. A credit to the original author, Jonas Schmedtmann, is of
+      course highly appreciated!
+    </p>
+  </Row>
+</footer>

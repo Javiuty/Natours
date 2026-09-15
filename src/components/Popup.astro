@@ -1,0 +1,56 @@
+---
+import { Image } from "astro:assets";
+import Button from "./Button.astro";
+import SectionHeading from "./SectionHeading.astro";
+import Heading3 from "./Heading3.astro";
+import nat8 from "../assets/nat-8.jpg";
+import nat9 from "../assets/nat-9.jpg";
+
+const text =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum reprehenderit, eligendi consequatur, labore qui tenetur, fugiat magni provident rerum modi quos eum! Incidunt molestias ipsum porro! Maiores esse voluptates reiciendis.";
+---
+
+<!-- Se abre con `:target`, sin JS: los botones "Book now!" apuntan a #popup y
+     el aspa vuelve a #tours, lo que deja de activar el target y lo cierra. -->
+<div
+  id="popup"
+  class="group fixed top-0 left-0 z-400 h-screen w-full bg-black/80 opacity-0 invisible transition-all duration-300 target:visible target:opacity-100 supports-[backdrop-filter]:bg-black/30 supports-[backdrop-filter]:backdrop-blur-[10px]"
+>
+  <div
+    class="absolute top-1/2 left-1/2 flex w-3/4 -translate-x-1/2 -translate-y-1/2 scale-25 overflow-hidden rounded-card bg-white opacity-0 shadow-popup transition-all delay-200 duration-500 group-target:scale-100 group-target:opacity-100 tab-port:flex-col"
+  >
+    <div class="w-1/3 tab-port:flex tab-port:w-full">
+      <Image src={nat8} alt="Tour photo" class="block w-full" />
+      <Image src={nat9} alt="Tour photo" class="block w-full" />
+    </div>
+
+    <div
+      class="flex w-2/3 flex-col justify-center px-50 py-30 tab-port:w-full tab-port:self-center phone:p-0"
+    >
+      <a
+        href="#tours"
+        aria-label="Close"
+        class="absolute top-25 right-25 inline-block text-30 leading-none text-grey-dark no-underline transition-all duration-200 hover:text-primary"
+        >&times;</a
+      >
+
+      <SectionHeading centered={false} class="mb-15">
+        Start booking now
+      </SectionHeading>
+
+      <Heading3 class="mb-15">
+        Important &ndash; Please read these terms before booking
+      </Heading3>
+
+      <p
+        class="mb-40 columns-2 gap-x-40 text-14 hyphens-auto [column-rule:1px_solid_var(--color-grey-light-2)] tab-port:text-[1.57em]"
+      >
+        {text} {text} {text}
+      </p>
+
+      <div>
+        <Button href="#">Book now</Button>
+      </div>
+    </div>
+  </div>
+</div>

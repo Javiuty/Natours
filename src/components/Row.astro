@@ -1,0 +1,36 @@
+---
+/**
+ * Contenedor centrado de ancho máximo con N columnas iguales.
+ *
+ * Sustituye al grid de floats del Sass original (`.row` + `.col-1-of-3` +
+ * clearfix): el `gap` hace el trabajo que antes hacían los
+ * `calc((100% - 2 * 6rem) / 3)` escritos a mano, y por debajo de 900px todo
+ * pasa a una sola columna.
+ */
+interface Props {
+  cols?: 1 | 2 | 3 | 4;
+  class?: string;
+}
+
+const { cols = 1, class: className } = Astro.props;
+
+const columns: Record<number, string> = {
+  1: "grid-cols-1",
+  2: "grid-cols-2",
+  3: "grid-cols-3",
+  4: "grid-cols-4",
+};
+---
+
+<div
+  class:list={[
+    // `items-start` conserva el comportamiento de los floats: cada columna
+    // mantiene su altura natural en vez de estirarse a la de la más alta.
+    "mx-auto grid max-w-1140 items-start gap-x-60 not-last:mb-80",
+    columns[cols],
+    "tab-port:max-w-500 tab-port:grid-cols-1 tab-port:gap-y-60 tab-port:px-30 tab-port:not-last:mb-60",
+    className,
+  ]}
+>
+  <slot />
+</div>

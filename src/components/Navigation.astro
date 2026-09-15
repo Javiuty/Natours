@@ -1,0 +1,62 @@
+---
+import { navLinks } from "../data/site";
+
+// El checkbox es el único estado: al marcarlo, el círculo de fondo escala x80
+// hasta cubrir la pantalla y el <nav> pasa de ancho 0 a 100%. Sin JS.
+const link =
+  "inline-block bg-[linear-gradient(120deg,transparent_0%,transparent_50%,var(--color-white)_50%)] bg-size-[220%] px-20 py-10 text-30 font-light uppercase text-white no-underline transition-all duration-300 hover:translate-x-10 hover:bg-right hover:text-primary active:translate-x-10 active:bg-right active:text-primary";
+
+// Las tres barras de la hamburguesa: la propia <span> y sus dos pseudoelementos.
+const bar = "h-[2px] w-30 bg-grey-dark-3 inline-block";
+---
+
+<div>
+  <input type="checkbox" id="navi-toggle" class="peer hidden" />
+
+  <label
+    for="navi-toggle"
+    class="group fixed top-60 right-60 z-200 h-70 w-70 cursor-pointer rounded-full bg-white text-center shadow-nav-btn tab-port:top-40 tab-port:right-40 phone:top-30 phone:right-30"
+  >
+    <span class="sr-only">Toggle navigation</span>
+    <span
+      aria-hidden="true"
+      class:list={[
+        "relative mt-35",
+        bar,
+        // Barras superior e inferior, desplazadas 0.8rem arriba y abajo.
+        "before:absolute before:left-0 before:-top-8 before:h-[2px] before:w-30 before:bg-grey-dark-3 before:inline-block before:transition-all before:duration-200 before:content-['']",
+        "after:absolute after:left-0 after:top-8 after:h-[2px] after:w-30 after:bg-grey-dark-3 after:inline-block after:transition-all after:duration-200 after:content-['']",
+        // Al pasar por encima se separan un poco más.
+        "group-hover:before:-top-10 group-hover:after:top-10",
+        // Abierto: la barra central desaparece y las otras dos forman una X.
+        "peer-checked-within:bg-transparent",
+        "peer-checked-within:before:top-0 peer-checked-within:before:rotate-[135deg]",
+        "peer-checked-within:after:top-0 peer-checked-within:after:-rotate-[135deg]",
+      ]}></span>
+  </label>
+
+  <div
+    aria-hidden="true"
+    class="fixed top-65 right-65 z-100 h-60 w-60 rounded-full bg-radial/srgb from-primary-light to-primary-dark transition-transform duration-800 ease-nav-bg peer-checked:scale-[80] tab-port:top-45 tab-port:right-45 phone:top-35 phone:right-35"
+  >
+  </div>
+
+  <nav
+    class="fixed top-0 left-0 z-150 h-screen w-0 opacity-0 transition-all duration-800 ease-nav peer-checked:w-full peer-checked:opacity-100"
+  >
+    <ul
+      class="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 list-none text-center"
+    >
+      {
+        navLinks.map((item) => (
+          <li class="m-10">
+            <a href={item.href} class={link}>
+              <span class="mr-15 inline-block">{item.index}</span>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>

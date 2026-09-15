@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Hero from "../components/Hero.astro";
+import Row from "../components/Row.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Heading3 from "../components/Heading3.astro";
+import Button from "../components/Button.astro";
+import ButtonText from "../components/ButtonText.astro";
+import Composition from "../components/Composition.astro";
+import FeatureBox from "../components/FeatureBox.astro";
+import TourCard from "../components/TourCard.astro";
+import Story from "../components/Story.astro";
+import BookingForm from "../components/BookingForm.astro";
+import Popup from "../components/Popup.astro";
+import Footer from "../components/Footer.astro";
+import { features, tours, stories } from "../data/site";
+
+const aboutText =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. At, numquam asperiores! Quam cupiditate, ipsa pariatur porro fugiat unde autem nobis, neque delectus aspernatur sapiente ullam facere cum suscipit culpa nihil!";
+
+const paragraph = "text-16 not-last:mb-30";
+---
+
+<BaseLayout
+  title="Natours | Exciting tours for adventurous people"
+  description="Exciting tours for adventurous people. Explore the world, meet nature and live a healthier life."
+>
+  <Navigation />
+  <Hero />
+
+  <main>
+    <!-- El margen negativo mete la sección por debajo del corte diagonal del
+         hero, que es lo que hace que encajen sin costura. -->
+    <section class="-mt-[20vh] bg-grey-light-1 py-250 tab-port:py-200">
+      <SectionHeading>Exciting tours for adventurous people</SectionHeading>
+
+      <Row cols={2}>
+        <div>
+          <Heading3 class="mb-15">
+            You're going to fall in love with nature
+          </Heading3>
+          <p class={paragraph}>{aboutText}</p>
+
+          <Heading3 class="mb-15">
+            Live adventures like you never have before
+          </Heading3>
+          <p class={paragraph}>{aboutText}</p>
+
+          <ButtonText href="#">Learn more &rarr;</ButtonText>
+        </div>
+
+        <Composition />
+      </Row>
+    </section>
+
+    <!-- La sección va inclinada entera y su único hijo se contrainclina, así
+         que solo se ven los bordes superior e inferior en diagonal. -->
+    <section class="features-bg -mt-120 -skew-y-7 bg-cover py-200 tab-port:py-100">
+      <Row cols={4} class="skew-y-7">
+        {features.map((feature) => <FeatureBox {...feature} />)}
+      </Row>
+    </section>
+
+    <section
+      id="tours"
+      class="-mt-120 bg-grey-light-1 pt-250 pb-150 tab-port:pt-200 tab-port:pb-100"
+    >
+      <SectionHeading>Most popular tours</SectionHeading>
+
+      <Row cols={3}>
+        {tours.map((tour) => <TourCard {...tour} />)}
+      </Row>
+
+      <div class="mt-100 text-center">
+        <Button href="#">Discover all tours</Button>
+      </div>
+    </section>
+
+    <section class="relative py-150 tab-port:py-100">
+      <!-- Vídeo de fondo al 15% de opacidad, detrás del contenido -->
+      <div class="absolute top-0 left-0 -z-10 h-full w-full opacity-15">
+        <video
+          class="h-full w-full object-cover"
+          autoplay
+          muted
+          loop
+          playsinline
+        >
+          <source src="/video/video.mp4" type="video/mp4" />
+          <source src="/video/video.webm" type="video/webm" />
+          Your browser is not supported!
+        </video>
+      </div>
+
+      <SectionHeading>We make people genuinely happy</SectionHeading>
+
+      {stories.map((story) => (
+        <Row>
+          <Story {...story} />
+        </Row>
+      ))}
+
+      <div class="mt-100 text-center">
+        <ButtonText href="#">Read all stories &rarr;</ButtonText>
+      </div>
+    </section>
+
+    <section
+      class="bg-linear-to-br/srgb from-primary-light to-primary-dark py-150 tab-port:py-100"
+    >
+      <Row>
+        <div class="book-bg rounded-card shadow-book">
+          <BookingForm />
+        </div>
+      </Row>
+    </section>
+  </main>
+
+  <Footer />
+  <Popup />
+</BaseLayout>

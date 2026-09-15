@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import logoWhite from "../assets/logo-white.png";
+import Button from "./Button.astro";
+---
+
+<!-- `hero-bg` (en global.css) trae el degradado + la foto, y cambia a la
+     versión de 2000px en pantallas retina. El recorte diagonal inferior sale
+     de `clip-hero`. -->
+<header
+  class="hero-bg relative h-[95vh] bg-cover bg-top clip-hero phone:clip-hero-tall"
+>
+  <div class="absolute top-40 left-40">
+    <Image src={logoWhite} alt="Natours" class="h-35 w-auto" />
+  </div>
+
+  <div
+    class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
+  >
+    <h1 class="mb-60 uppercase text-white backface-hidden">
+      <span
+        class="block animate-in-left text-60 font-normal tracking-[3.5rem] phone:text-50 phone:tracking-[1rem]"
+        >Outdoors</span
+      >
+      <span
+        class="block animate-in-right text-20 font-bold tracking-[1.7rem] phone:tracking-[0.5rem]"
+        >is where life happens</span
+      >
+    </h1>
+
+    <Button href="#" variant="white" animated>Discover our tours</Button>
+  </div>
+</header>

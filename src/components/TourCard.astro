@@ -1,0 +1,97 @@
+---
+import Button from "./Button.astro";
+import type { Tour } from "../data/site";
+
+type Props = Tour;
+
+const { palette, title, details, price } = Astro.props;
+
+// La paleta elegida decide los tres degradados de la tarjeta y qué foto lleva
+// la cara frontal (las clases `tour-picture-*` están en global.css).
+const palettes = {
+  secondary: {
+    picture: "tour-picture-1",
+    back: "from-secondary-light to-secondary-dark",
+    heading: "from-secondary-light/85 to-secondary-dark/85",
+  },
+  primary: {
+    picture: "tour-picture-2",
+    back: "from-primary-light to-primary-dark",
+    heading: "from-primary-light/85 to-primary-dark/85",
+  },
+  tertiary: {
+    picture: "tour-picture-3",
+    back: "from-tertiary-light to-tertiary-dark",
+    heading: "from-tertiary-light/85 to-tertiary-dark/85",
+  },
+} as const;
+
+const theme = palettes[palette];
+
+// `backface-hidden` es lo que oculta la cara que queda mirando hacia atrás.
+// En tablet el volteo se desactiva y las dos caras se apilan una tras otra.
+const side =
+  "absolute top-0 left-0 h-520 w-full overflow-hidden rounded-card text-20 shadow-card backface-hidden transition-all duration-800 ease-css tab-port:relative tab-port:h-auto tab-port:shadow-none";
+---
+
+<div
+  class="group relative h-520 [perspective:150rem] tab-port:h-auto tab-port:rounded-card tab-port:bg-white tab-port:shadow-card"
+>
+  <div
+    class:list={[
+      side,
+      "bg-white group-hover:-rotate-y-180 tab-port:group-hover:rotate-y-0",
+    ]}
+  >
+    <div
+      class:list={[
+        "h-230 rounded-t-card bg-cover bg-blend-screen clip-tour-picture",
+        theme.picture,
+      ]}
+    >
+    </div>
+
+    <h4
+      class="absolute top-120 right-20 w-3/4 text-center text-28 font-light uppercase text-white"
+    >
+      <!-- `box-decoration-clone` hace que el degradado se repita completo en
+           cada línea cuando el título parte en dos. -->
+      <span
+        class:list={[
+          "box-decoration-clone bg-linear-to-br/srgb px-15 py-10",
+          theme.heading,
+        ]}>{title}</span
+      >
+    </h4>
+
+    <div class="p-30 tab-port:px-30 tab-port:py-10">
+      <ul class="mx-auto w-4/5 list-none">
+        {
+          details.map((detail) => (
+            <li class="p-10 text-center text-15 not-last:border-b not-last:border-grey-light-2">
+              {detail}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div
+    class:list={[
+      side,
+      "rotate-y-180 bg-linear-to-br/srgb group-hover:rotate-y-0 tab-port:rotate-y-0 tab-port:clip-tour-back",
+      theme.back,
+    ]}
+  >
+    <div
+      class="absolute top-1/2 left-1/2 w-9/10 -translate-x-1/2 -translate-y-1/2 text-center tab-port:relative tab-port:top-0 tab-port:left-0 tab-port:w-full tab-port:translate-x-0 tab-port:translate-y-0 tab-port:px-40 tab-port:pt-70 tab-port:pb-40"
+    >
+      <div class="mb-80 text-center text-white tab-port:mb-30">
+        <p class="text-14 uppercase">Only</p>
+        <p class="text-60 font-thin">{price}</p>
+      </div>
+      <Button href="#popup" variant="white">Book now!</Button>
+    </div>
+  </div>
+</div>
