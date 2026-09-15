@@ -49,6 +49,3 @@ degradado con `url()` (cambian de imagen por breakpoint o densidad) y los
 ilegible.
 
 ---
-
-Puedes usar esta página con fines personales y comerciales, pero no atribuirte
-el diseño. El autor original es Jonas Schmedtmann.
